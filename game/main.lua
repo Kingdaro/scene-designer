@@ -31,7 +31,7 @@ function love.mousepressed(x, y, button, isTouch)
 end
 
 function love.mousemoved(x, y, dx, dy)
-  if love.mouse.isDown(2) then
+  if love.mouse.isDown(3) then
     camera:drag(dx, dy)
     love.mouse.setCursor(cursorGrab)
   end
