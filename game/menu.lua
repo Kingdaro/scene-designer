@@ -2,6 +2,8 @@ local util = require 'util'
 
 local menu = {}
 
+local optionSpacing = 16
+
 function menu:init()
   self.font = love.graphics.newFont('Roboto-Medium.ttf', 18)
   self.visible = false
@@ -26,21 +28,34 @@ function menu:draw()
   love.graphics.push()
   love.graphics.translate(self.x, self.y)
 
-  local itemSpacing = 16
+  local menuWidth = self.font:getWidth(self.options[1])
+  for i=2, #self.options do
+    local opt = self.options[i]
+    local width = self.font:getWidth(opt)
+    if width > menuWidth then
+      menuWidth = width
+    end
+  end
+
+  menuWidth = menuWidth + optionSpacing
+
   local fontHeight = self.font:getHeight()
-  local menuHeight = fontHeight * #self.options + itemSpacing * (#self.options + 1)
+  local optionHeight = fontHeight + optionSpacing
+  local menuHeight = optionHeight * #self.options
 
   love.graphics.setColor(util.toLoveColor(0.5, 0.5, 0.5))
   love.graphics.setLineWidth(4)
-  love.graphics.rectangle('line', 0, 0, 145, menuHeight)
+  love.graphics.rectangle('line', 0, 0, menuWidth, menuHeight)
 
   love.graphics.setColor(util.toLoveColor(1, 1, 1))
-  love.graphics.rectangle('fill', 0, 0, 145, menuHeight)
+  love.graphics.rectangle('fill', 0, 0, menuWidth, menuHeight)
 
-  love.graphics.setColor(util.toLoveColor(0.2, 0.2, 0.2))
   love.graphics.setFont(self.font)
+
   for i, text in ipairs(self.options) do
-    love.graphics.print(text, 10, itemSpacing + (fontHeight + itemSpacing) * (i - 1))
+    local y = (fontHeight + optionSpacing) * (i - 1)
+    love.graphics.setColor(util.toLoveColor(0.2, 0.2, 0.2))
+    love.graphics.print(text, optionSpacing / 2, y + optionSpacing / 2)
   end
 
   love.graphics.pop()
