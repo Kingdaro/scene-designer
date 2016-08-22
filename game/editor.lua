@@ -1,3 +1,5 @@
+local util = require 'util'
+
 local editor = {}
 
 function editor:init(sceneWidth, sceneHeight)
@@ -7,6 +9,7 @@ function editor:init(sceneWidth, sceneHeight)
 end
 
 function editor:drawGrid()
+  love.graphics.setColor(util.color(0.1, 0.1, 0.1))
   love.graphics.setLineWidth(1)
 
   for x = 0, self.sceneWidth, self.gridSpacing do
