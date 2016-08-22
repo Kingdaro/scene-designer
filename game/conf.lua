@@ -18,7 +18,7 @@ function love.conf(t)
   t.window.fullscreentype = 'desktop'
   t.window.vsync = true
   t.window.msaa = 4
-  t.window.display = 1
+  t.window.display = 2
   t.window.highdpi = false
   t.window.x = nil
   t.window.y = nil
