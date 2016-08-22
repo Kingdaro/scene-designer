@@ -1,6 +1,7 @@
 -- luacheck: no unused args
 local editor = require 'editor'
 local camera = require 'camera'
+local menu = require 'menu'
 local util = require 'util'
 
 local cursorGrab = love.mouse.getSystemCursor('sizeall')
@@ -10,6 +11,7 @@ function love.load()
   love.window.maximize()
   editor:init(800, 600)
   camera:init()
+  menu:init()
 end
 
 function love.update(dt)
@@ -20,14 +22,24 @@ function love.draw()
     editor:drawGrid()
     editor:drawObjects()
     editor:drawSelections()
-    editor:drawContextMenu()
   end)
+  menu:draw()
 end
 
 function love.mousepressed(x, y, button, isTouch)
-  x, y = camera:getScenePosition(x, y)
-  if not editor:selectFirstObjectAt(x, y) then
-    editor:clearSelection()
+  if button == 1 then
+    menu:close()
+    local sx, sy = camera:getScenePosition(x, y)
+    if not editor:selectFirstObjectAt(sx, sy) then
+      editor:clearSelection()
+    end
+  elseif button == 2 then
+    menu:open(x, y, {
+      'Add Rectangle',
+      'Add Ellipse',
+      'Add Text',
+      'Add Image'
+    })
   end
 end
 
