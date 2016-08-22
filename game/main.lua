@@ -6,7 +6,7 @@ local util = require 'util'
 local cursorGrab = love.mouse.getSystemCursor('sizeall')
 
 function love.load()
-  love.graphics.setBackgroundColor(util.color(0.2, 0.2, 0.2))
+  love.graphics.setBackgroundColor(util.toLoveColor(0.2, 0.2, 0.2))
   love.window.maximize()
   editor:init(800, 600)
   camera:init()

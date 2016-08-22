@@ -2,6 +2,8 @@ local util = require 'util'
 
 local editor = {}
 
+local selectionColor = { 0.2, 0.5, 1 }
+
 function editor:init(sceneWidth, sceneHeight)
   self.sceneWidth = sceneWidth
   self.sceneHeight = sceneHeight
@@ -11,7 +13,7 @@ function editor:init(sceneWidth, sceneHeight)
       type = 'circle',
       x = 100,
       y = 100,
-      color = { util.color(0.5, 0.5, 1) },
+      color = { 0.5, 0.5, 1},
       radius = 50
     }
   }
@@ -33,7 +35,7 @@ function editor:clearSelection()
 end
 
 function editor:drawGrid()
-  love.graphics.setColor(util.color(0.1, 0.1, 0.1))
+  love.graphics.setColor(util.toLoveColor(0.1, 0.1, 0.1))
   love.graphics.setLineWidth(1)
 
   for x = 0, self.sceneWidth, self.gridSpacing do
@@ -51,7 +53,7 @@ function editor:drawObjects()
   for _, o in ipairs(self.objects) do
     if o.type == 'circle' then
       love.graphics.push('all')
-      love.graphics.setColor(o.color)
+      love.graphics.setColor(util.toLoveColor(o.color))
       love.graphics.circle('fill', o.x, o.y, o.radius)
       love.graphics.pop()
     end
@@ -71,10 +73,11 @@ function editor:drawSelections()
     love.graphics.push('all')
 
     -- selection fill
-    love.graphics.setColor(util.color(0.2, 0.5, 1, 0.3))
+    love.graphics.setColor(util.toLoveColor(util.opacity(selectionColor, 0.3)))
     love.graphics.rectangle('fill', x, y, width, height)
 
-    love.graphics.setColor(util.color(0.2, 0.5, 1))
+    -- selection outline
+    love.graphics.setColor(util.toLoveColor(selectionColor))
     love.graphics.setLineWidth(2)
     love.graphics.rectangle('line', x, y, width, height)
 
