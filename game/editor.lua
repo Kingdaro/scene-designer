@@ -19,6 +19,8 @@ function editor:init(sceneWidth, sceneHeight)
   }
 
   self.selection = {}
+
+  self.contextMenuFont = love.graphics.newFont('Roboto-Medium.ttf', 18)
 end
 
 function editor:selectFirstObjectAt(x, y)
@@ -83,6 +85,37 @@ function editor:drawSelections()
 
     love.graphics.pop()
   end
+end
+
+function editor:drawContextMenu()
+  love.graphics.push()
+  love.graphics.translate(100, 100)
+
+  local items = {
+    'Add Rectangle',
+    'Add Ellipse',
+    'Add Text',
+    'Add Image',
+  }
+
+  local itemSpacing = 16
+  local fontHeight = self.contextMenuFont:getHeight()
+  local menuHeight = fontHeight * #items + itemSpacing * (#items + 1)
+
+  love.graphics.setColor(util.toLoveColor(0.5, 0.5, 0.5))
+  love.graphics.setLineWidth(4)
+  love.graphics.rectangle('line', 0, 0, 145, menuHeight)
+
+  love.graphics.setColor(util.toLoveColor(1, 1, 1))
+  love.graphics.rectangle('fill', 0, 0, 145, menuHeight)
+
+  love.graphics.setColor(util.toLoveColor(0.2, 0.2, 0.2))
+  love.graphics.setFont(self.contextMenuFont)
+  for i, text in ipairs(items) do
+    love.graphics.print(text, 10, itemSpacing + (fontHeight + itemSpacing) * (i - 1))
+  end
+
+  love.graphics.pop()
 end
 
 return editor

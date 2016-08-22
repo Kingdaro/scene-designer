@@ -20,6 +20,7 @@ function love.draw()
     editor:drawGrid()
     editor:drawObjects()
     editor:drawSelections()
+    editor:drawContextMenu()
   end)
 end
 
