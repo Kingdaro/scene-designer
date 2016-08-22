@@ -7,15 +7,31 @@ local cursorGrab = love.mouse.getSystemCursor('sizeall')
 
 function love.load()
   love.graphics.setBackgroundColor(util.color(0.2, 0.2, 0.2))
-  editor:init(love.graphics.getDimensions())
+  love.window.maximize()
+  editor:init(800, 600)
   camera:init()
 end
 
 function love.update(dt)
 end
 
+function love.draw()
+  camera:transform(function()
+    editor:drawGrid()
+    editor:drawObjects()
+    editor:drawSelections()
+  end)
+end
+
+function love.mousepressed(x, y, button, isTouch)
+  x, y = camera:getScenePosition(x, y)
+  if not editor:selectFirstObjectAt(x, y) then
+    editor:clearSelection()
+  end
+end
+
 function love.mousemoved(x, y, dx, dy)
-  if love.mouse.isDown(1) then
+  if love.mouse.isDown(2) then
     camera:drag(dx, dy)
     love.mouse.setCursor(cursorGrab)
   end
@@ -27,13 +43,6 @@ end
 
 function love.wheelmoved(x, y)
   camera:scrollZoom(1.1, y)
-end
-
-function love.draw()
-  camera:transform(function()
-    editor:drawGrid()
-    editor:drawObjects()
-  end)
 end
 
 function love.keypressed(key)

@@ -1,3 +1,5 @@
+io.stdout:setvbuf('no')
+
 function love.conf(t)
   t.identity = nil
   t.version = '0.10.1'
@@ -8,10 +10,8 @@ function love.conf(t)
 
   t.window.title = 'Untitled'
   t.window.icon = nil
-  t.window.width = 1280
-  t.window.height = 720
   t.window.borderless = false
-  t.window.resizable = false
+  t.window.resizable = true
   t.window.minwidth = 1
   t.window.minheight = 1
   t.window.fullscreen = false

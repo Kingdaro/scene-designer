@@ -15,6 +15,21 @@ function editor:init(sceneWidth, sceneHeight)
       radius = 50
     }
   }
+
+  self.selection = {}
+end
+
+function editor:selectFirstObjectAt(x, y)
+  for _, o in ipairs(self.objects) do
+    if util.distance(x, y, o.x, o.y) < o.radius then
+      self.selection = { o }
+      return o
+    end
+  end
+end
+
+function editor:clearSelection()
+  self.selection = {}
 end
 
 function editor:drawGrid()
@@ -40,6 +55,30 @@ function editor:drawObjects()
       love.graphics.circle('fill', o.x, o.y, o.radius)
       love.graphics.pop()
     end
+  end
+end
+
+function editor:drawSelections()
+  for _, o in ipairs(self.selection) do
+    local x, y, width, height
+    if o.type == 'circle' then
+      x = o.x - o.radius
+      y = o.y - o.radius
+      width = o.radius * 2
+      height = width
+    end
+
+    love.graphics.push('all')
+
+    -- selection fill
+    love.graphics.setColor(util.color(0.2, 0.5, 1, 0.3))
+    love.graphics.rectangle('fill', x, y, width, height)
+
+    love.graphics.setColor(util.color(0.2, 0.5, 1))
+    love.graphics.setLineWidth(2)
+    love.graphics.rectangle('line', x, y, width, height)
+
+    love.graphics.pop()
   end
 end
 
