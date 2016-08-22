@@ -31,7 +31,8 @@ end
 
 function love.draw()
   camera:transform(function()
-    editor:drawGrid(80)
+    editor:drawGrid()
+    editor:drawObjects()
   end)
 end
 
