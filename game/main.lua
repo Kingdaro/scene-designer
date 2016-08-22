@@ -9,6 +9,8 @@ local gridOffsetY = 0
 local gridSpacing = 80
 local editorZoom = 1
 
+local cursorGrab = love.mouse.getSystemCursor('sizeall')
+
 function love.load()
   love.graphics.setBackgroundColor(color(0.2, 0.2, 0.2))
 end
@@ -17,10 +19,15 @@ function love.update(dt)
 end
 
 function love.mousemoved(_, _, dx, dy)
-  if love.mouse.isDown(2) then
+  if love.mouse.isDown(1) then
     gridOffsetX = gridOffsetX + dx / editorZoom
     gridOffsetY = gridOffsetY + dy / editorZoom
+    love.mouse.setCursor(cursorGrab)
   end
+end
+
+function love.mousereleased(x, y, button, isTouch)
+  love.mouse.setCursor()
 end
 
 function love.wheelmoved(x, y)
