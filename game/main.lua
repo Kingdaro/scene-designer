@@ -1,3 +1,4 @@
+-- luacheck: no unused args
 local editor = require 'editor'
 local camera = require 'camera'
 local util = require 'util'
